@@ -4,7 +4,6 @@ using Npgsql;
 
 namespace PSPostgreSQL
 {
-    [CmdletBinding()]
     [Cmdlet(VerbsLifecycle.Invoke, "PGQuery")]
     [Alias("ipgqry")]
     public class InvokePGQueryCmdlet : PSCmdlet

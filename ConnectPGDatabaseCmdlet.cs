@@ -12,7 +12,6 @@ namespace PSPostgreSQL
     /// always call Disconnect-PGDatabase when done to ensure that the connection is
     /// properly disposed of.
     /// </remarks>
-    [CmdletBinding()]
     [Cmdlet(VerbsCommunications.Connect, "PGDatabase")]
     [OutputType(typeof(NpgsqlConnection))]
     [Alias("cnpgdb")]

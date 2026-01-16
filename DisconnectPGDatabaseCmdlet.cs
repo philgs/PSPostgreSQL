@@ -4,9 +4,7 @@ using Npgsql;
 
 namespace PSPostgreSQL
 {
-    [CmdletBinding()]
     [Cmdlet(VerbsCommunications.Disconnect, "PGDatabase")]
-    [OutputType(typeof(NpgsqlConnection))]
     [Alias("dcpgdb")]
     public class DisconnectPGDatabaseCmdlet : PSCmdlet
     {
@@ -37,7 +35,6 @@ namespace PSPostgreSQL
                 if (Connection.State != System.Data.ConnectionState.Closed)
                     Connection.Close();
 
-                // Properly dispose of the connection
                 Connection.Dispose();
                 WriteVerbose("Database connection closed and disposed.");
             }

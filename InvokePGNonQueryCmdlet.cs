@@ -4,7 +4,6 @@ using Npgsql;
 
 namespace PSPostgreSQL
 {
-    [CmdletBinding()]
     [Cmdlet(VerbsLifecycle.Invoke, "PGNonQuery")]
     [OutputType(typeof(int))]
     [Alias("ipgcmd")]

@@ -24,9 +24,15 @@
     )
     PrivateData          = @{
         PSData = @{
-            Tags         = @('database', 'postgresql', 'pgsql', 'sql', 'npgsql')
-            LicenseUri   = 'https://github.com/badmrspoon/PSPostgreSQL/blob/main/LICENSE'
-            ProjectUri   = 'https://github.com/badmrspoon/PSPostgreSQL'
+            Tags       = @(
+                'database'
+                'postgresql'
+                'pgsql'
+                'sql'
+                'npgsql'
+            )
+            LicenseUri = 'https://github.com/philgs/PSPostgreSQL/blob/main/LICENSE'
+            ProjectUri = 'https://github.com/philgs/PSPostgreSQL'
         }
     }
 }

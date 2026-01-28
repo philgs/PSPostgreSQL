@@ -1,0 +1,28 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - LICENSE
+      - README.md
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - LICENSE
+      - README.md
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@0c366fd6a839edf440554fa01a7085ccba70ac98
+      with:
+        fetch-depth: 0
+    - name: Install .NET
+      uses: actions/setup-dotnet@baa11fbfe1d6520db94683bd5c7a3818018e4309
+      with:
+        dotnet-version: '9.0.x'
+    - name: Build
+      run: dotnet publish ./PSPostgreSQL.csproj --configuration Release

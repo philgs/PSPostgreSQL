@@ -34,6 +34,28 @@ namespace PSPostgreSQL
         [ValidateNotNullOrEmpty]
         public PSCredential Credential { get; set; }
 
+        [Parameter(Mandatory = false)]
+        [ValidateRange(0, int.MaxValue)]
+        public int CommandTimeout { get; set; } = 30;
+
+        [Parameter(Mandatory = false)]
+        [ValidateRange(0, int.MaxValue)]
+        public int ConnectionIdleLifetime { get; set; } = 300;
+
+        [Parameter(Mandatory = false)]
+        [ValidateRange(0, int.MaxValue)]
+        public int ConnectionPruningInterval { get; set; } = 10;
+
+        [Parameter(Mandatory = false)]
+        public bool Multiplexing { get; set; }
+
+        [Parameter(Mandatory = false)]
+        public bool Pooling { get; set; } = true;
+
+        [Parameter(Mandatory = false)]
+        [ValidateRange(0, int.MaxValue)]
+        public int Timeout { get; set; } = 15;
+
         protected override void ProcessRecord()
         {
             try
@@ -45,15 +67,20 @@ namespace PSPostgreSQL
                     Username = Credential.UserName,
                     Password = Credential.GetNetworkCredential().Password,
                     SslMode = SslMode.Prefer,
-                    Pooling = true,
+                    Pooling = Pooling,
                     MinPoolSize = 0,
                     MaxPoolSize = 100,
-                    ConnectionIdleLifetime = 300,
-                    ConnectionPruningInterval = 10
+                    CommandTimeout = CommandTimeout,
+                    ConnectionIdleLifetime = ConnectionIdleLifetime,
+                    ConnectionPruningInterval = ConnectionPruningInterval,
+                    Timeout = Timeout
                 };
 
                 if (MyInvocation.BoundParameters.ContainsKey("Database"))
                     builder.Database = Database;
+
+                if (MyInvocation.BoundParameters.ContainsKey("Multiplexing"))
+                    builder.Multiplexing = Multiplexing;
 
                 var conn = new NpgsqlConnection(builder.ConnectionString);
                 conn.Open();

@@ -12,5 +12,8 @@
         <None Include="PSPostgreSQL.psd1">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Include="PSPostgreSQL.dll-Help.xml">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 </Project>

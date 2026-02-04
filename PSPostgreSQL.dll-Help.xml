@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="utf-8"?>
+<helpItems schema="maml" xmlns="http://msh">
+  <!-- Connect-PGDatabase -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Connect-PGDatabase</command:name>
+      <command:verb>Connect</command:verb>
+      <command:noun>PGDatabase</command:noun>
+      <maml:description>
+        <maml:para>Connects to a PostgreSQL database and stores the connection in session state.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Connect-PGDatabase cmdlet establishes a connection to a PostgreSQL database server using the Npgsql data provider. The connection remains open until Disconnect-PGDatabase is called. Be sure to always call Disconnect-PGDatabase when done to ensure that the connection is properly disposed of.</maml:para>
+      <maml:para>The connection is stored in a session state variable and can be used by other cmdlets in this module (Invoke-PGQuery, Invoke-PGNonQuery) without explicitly passing the connection object.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Connect-PGDatabase</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="Server">
+          <maml:name>ComputerName</maml:name>
+          <maml:description>
+            <maml:para>The hostname or IP address of the PostgreSQL server.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>localhost</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Port</maml:name>
+          <maml:description>
+            <maml:para>The TCP port number on which the PostgreSQL server is listening.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>5432</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Database</maml:name>
+          <maml:description>
+            <maml:para>The name of the database to connect to. If not specified, connects to the default database for the user.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Credential</maml:name>
+          <maml:description>
+            <maml:para>The credentials used to authenticate with the PostgreSQL server. The username and password are extracted from the PSCredential object.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+          <dev:type>
+            <maml:name>PSCredential</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>CommandTimeout</maml:name>
+          <maml:description>
+            <maml:para>The default timeout in seconds for commands executed on this connection.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>30</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ConnectionIdleLifetime</maml:name>
+          <maml:description>
+            <maml:para>The time in seconds to wait before closing idle connections in the pool.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>300</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ConnectionPruningInterval</maml:name>
+          <maml:description>
+            <maml:para>The interval in seconds at which the connection pool is checked for idle connections to prune.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>10</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Multiplexing</maml:name>
+          <maml:description>
+            <maml:para>Enables multiplexing, which allows multiple commands to be sent over a single connection. This can improve performance for high-concurrency scenarios.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Pooling</maml:name>
+          <maml:description>
+            <maml:para>Enables or disables connection pooling. When enabled, connections are reused from a pool instead of being created and destroyed for each request.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+          <dev:type>
+            <maml:name>Boolean</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>True</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Timeout</maml:name>
+          <maml:description>
+            <maml:para>The time in seconds to wait while trying to establish a connection before terminating the attempt and generating an error.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>15</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="Server">
+        <maml:name>ComputerName</maml:name>
+        <maml:description>
+          <maml:para>The hostname or IP address of the PostgreSQL server.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>localhost</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Port</maml:name>
+        <maml:description>
+          <maml:para>The TCP port number on which the PostgreSQL server is listening.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>5432</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Database</maml:name>
+        <maml:description>
+          <maml:para>The name of the database to connect to. If not specified, connects to the default database for the user.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Credential</maml:name>
+        <maml:description>
+          <maml:para>The credentials used to authenticate with the PostgreSQL server. The username and password are extracted from the PSCredential object.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        <dev:type>
+          <maml:name>PSCredential</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>CommandTimeout</maml:name>
+        <maml:description>
+          <maml:para>The default timeout in seconds for commands executed on this connection.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>30</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>ConnectionIdleLifetime</maml:name>
+        <maml:description>
+          <maml:para>The time in seconds to wait before closing idle connections in the pool.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>300</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>ConnectionPruningInterval</maml:name>
+        <maml:description>
+          <maml:para>The interval in seconds at which the connection pool is checked for idle connections to prune.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>10</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Multiplexing</maml:name>
+        <maml:description>
+          <maml:para>Enables multiplexing, which allows multiple commands to be sent over a single connection. This can improve performance for high-concurrency scenarios.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+        <dev:type>
+          <maml:name>Boolean</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Pooling</maml:name>
+        <maml:description>
+          <maml:para>Enables or disables connection pooling. When enabled, connections are reused from a pool instead of being created and destroyed for each request.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
+        <dev:type>
+          <maml:name>Boolean</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>True</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Timeout</maml:name>
+        <maml:description>
+          <maml:para>The time in seconds to wait while trying to establish a connection before terminating the attempt and generating an error.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>15</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>This cmdlet does not accept pipeline input.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Npgsql.NpgsqlConnection</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>Returns the open NpgsqlConnection object.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>The connection is stored in a private session state variable named PGSQLConnection. This allows other cmdlets in the module to use the connection without explicitly passing it.</maml:para>
+        <maml:para>SSL mode is set to Prefer by default, which means the connection will use SSL if available but will fall back to an unencrypted connection if SSL is not supported by the server.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>$cred = Get-Credential
+Connect-PGDatabase -ComputerName "dbserver.example.com" -Database "mydb" -Credential $cred</dev:code>
+        <dev:remarks>
+          <maml:para>Connects to the PostgreSQL database "mydb" on server "dbserver.example.com" using the specified credentials.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>$cred = Get-Credential
+Connect-PGDatabase -Credential $cred</dev:code>
+        <dev:remarks>
+          <maml:para>Connects to the default PostgreSQL database on localhost using the specified credentials.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>$cred = Get-Credential
+Connect-PGDatabase -ComputerName "192.168.1.100" -Port 5433 -Database "production" -Credential $cred -Timeout 30 -CommandTimeout 120</dev:code>
+        <dev:remarks>
+          <maml:para>Connects to a PostgreSQL server on a custom port with extended timeout values for both connection and command execution.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Disconnect-PGDatabase</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Invoke-PGQuery</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Invoke-PGNonQuery</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+
+  <!-- Disconnect-PGDatabase -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Disconnect-PGDatabase</command:name>
+      <command:verb>Disconnect</command:verb>
+      <command:noun>PGDatabase</command:noun>
+      <maml:description>
+        <maml:para>Closes and disposes of a PostgreSQL database connection.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Disconnect-PGDatabase cmdlet closes an open PostgreSQL database connection and releases all resources associated with it. If no connection is specified, it uses the connection stored in session state by Connect-PGDatabase.</maml:para>
+      <maml:para>Always call this cmdlet when you are finished working with the database to ensure proper cleanup of resources.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Disconnect-PGDatabase</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+          <maml:name>Connection</maml:name>
+          <maml:description>
+            <maml:para>The NpgsqlConnection object to close. If not specified, uses the connection stored in session state.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">NpgsqlConnection</command:parameterValue>
+          <dev:type>
+            <maml:name>NpgsqlConnection</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+        <maml:name>Connection</maml:name>
+        <maml:description>
+          <maml:para>The NpgsqlConnection object to close. If not specified, uses the connection stored in session state.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">NpgsqlConnection</command:parameterValue>
+        <dev:type>
+          <maml:name>NpgsqlConnection</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>Npgsql.NpgsqlConnection</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>You can pipe a NpgsqlConnection object to this cmdlet.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>This cmdlet does not generate any output.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>This cmdlet removes the PGSQLConnection variable from session state after closing the connection.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>Disconnect-PGDatabase</dev:code>
+        <dev:remarks>
+          <maml:para>Closes the connection stored in session state.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>$conn = Connect-PGDatabase -Credential $cred
+# ... do work ...
+$conn | Disconnect-PGDatabase</dev:code>
+        <dev:remarks>
+          <maml:para>Pipes a connection object directly to Disconnect-PGDatabase to close it.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>Disconnect-PGDatabase -Connection $myConnection</dev:code>
+        <dev:remarks>
+          <maml:para>Closes a specific connection object passed as a parameter.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Connect-PGDatabase</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+
+  <!-- Invoke-PGQuery -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Invoke-PGQuery</command:name>
+      <command:verb>Invoke</command:verb>
+      <command:noun>PGQuery</command:noun>
+      <maml:description>
+        <maml:para>Executes a SQL query against a PostgreSQL database and returns the results.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Invoke-PGQuery cmdlet executes a SQL SELECT query or other query that returns results against a PostgreSQL database. Each row is returned as a PSObject with properties corresponding to the column names.</maml:para>
+      <maml:para>If no connection is specified, the cmdlet uses the connection stored in session state by Connect-PGDatabase.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Invoke-PGQuery</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>Query</maml:name>
+          <maml:description>
+            <maml:para>The SQL query to execute.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Connection</maml:name>
+          <maml:description>
+            <maml:para>The NpgsqlConnection object to use. If not specified, uses the connection stored in session state.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">NpgsqlConnection</command:parameterValue>
+          <dev:type>
+            <maml:name>NpgsqlConnection</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>CommandTimeout</maml:name>
+          <maml:description>
+            <maml:para>The timeout in seconds for the query execution. Overrides the connection's default command timeout.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>30</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>Query</maml:name>
+        <maml:description>
+          <maml:para>The SQL query to execute.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Connection</maml:name>
+        <maml:description>
+          <maml:para>The NpgsqlConnection object to use. If not specified, uses the connection stored in session state.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">NpgsqlConnection</command:parameterValue>
+        <dev:type>
+          <maml:name>NpgsqlConnection</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>CommandTimeout</maml:name>
+        <maml:description>
+          <maml:para>The timeout in seconds for the query execution. Overrides the connection's default command timeout.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>30</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>This cmdlet does not accept pipeline input.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Management.Automation.PSObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>Returns PSObject instances representing each row in the result set. Each object has properties corresponding to the column names in the query result.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>DBNull values are converted to $null in the output objects.</maml:para>
+        <maml:para>Use the -Verbose switch to see the number of records returned.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>Invoke-PGQuery -Query "SELECT * FROM users"</dev:code>
+        <dev:remarks>
+          <maml:para>Retrieves all rows from the users table using the session state connection.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>Invoke-PGQuery "SELECT id, name FROM products WHERE price > 100" | Format-Table</dev:code>
+        <dev:remarks>
+          <maml:para>Executes a filtered query and formats the results as a table.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>$results = Invoke-PGQuery -Query "SELECT * FROM large_table" -CommandTimeout 300
+$results | Export-Csv -Path "output.csv"</dev:code>
+        <dev:remarks>
+          <maml:para>Executes a query with an extended timeout and exports the results to a CSV file.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>Invoke-PGQuery -Query "SELECT COUNT(*) as total FROM orders" -Connection $conn</dev:code>
+        <dev:remarks>
+          <maml:para>Executes a query using a specific connection object instead of the session state connection.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Connect-PGDatabase</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Invoke-PGNonQuery</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Disconnect-PGDatabase</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+
+  <!-- Invoke-PGNonQuery -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Invoke-PGNonQuery</command:name>
+      <command:verb>Invoke</command:verb>
+      <command:noun>PGNonQuery</command:noun>
+      <maml:description>
+        <maml:para>Executes a SQL command that does not return results, such as INSERT, UPDATE, or DELETE.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Invoke-PGNonQuery cmdlet executes a SQL command that does not return a result set against a PostgreSQL database. This is typically used for INSERT, UPDATE, DELETE, or DDL statements.</maml:para>
+      <maml:para>The cmdlet returns the number of rows affected by the command. If no connection is specified, it uses the connection stored in session state by Connect-PGDatabase.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Invoke-PGNonQuery</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>Query</maml:name>
+          <maml:description>
+            <maml:para>The SQL command to execute.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Connection</maml:name>
+          <maml:description>
+            <maml:para>The NpgsqlConnection object to use. If not specified, uses the connection stored in session state.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">NpgsqlConnection</command:parameterValue>
+          <dev:type>
+            <maml:name>NpgsqlConnection</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>CommandTimeout</maml:name>
+          <maml:description>
+            <maml:para>The timeout in seconds for the command execution. Overrides the connection's default command timeout.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>30</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>Query</maml:name>
+        <maml:description>
+          <maml:para>The SQL command to execute.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Connection</maml:name>
+        <maml:description>
+          <maml:para>The NpgsqlConnection object to use. If not specified, uses the connection stored in session state.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">NpgsqlConnection</command:parameterValue>
+        <dev:type>
+          <maml:name>NpgsqlConnection</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>CommandTimeout</maml:name>
+        <maml:description>
+          <maml:para>The timeout in seconds for the command execution. Overrides the connection's default command timeout.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>30</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>This cmdlet does not accept pipeline input.</maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Int32</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para>Returns the number of rows affected by the command.</maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>Use the -Verbose switch to see the number of rows affected by the command.</maml:para>
+        <maml:para>For DDL statements (CREATE, ALTER, DROP), the return value is typically -1.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>Invoke-PGNonQuery -Query "INSERT INTO users (name, email) VALUES ('John', 'john@example.com')"</dev:code>
+        <dev:remarks>
+          <maml:para>Inserts a new row into the users table and returns the number of rows affected (1).</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>$rowsAffected = Invoke-PGNonQuery "UPDATE products SET price = price * 1.1 WHERE category = 'electronics'"
+Write-Host "Updated $rowsAffected products"</dev:code>
+        <dev:remarks>
+          <maml:para>Updates product prices and captures the number of affected rows.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>Invoke-PGNonQuery -Query "DELETE FROM logs WHERE created_at &lt; NOW() - INTERVAL '30 days'" -CommandTimeout 120</dev:code>
+        <dev:remarks>
+          <maml:para>Deletes old log entries with an extended timeout for potentially long-running operations.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>Invoke-PGNonQuery -Query "CREATE TABLE IF NOT EXISTS audit_log (id SERIAL PRIMARY KEY, action TEXT, timestamp TIMESTAMPTZ DEFAULT NOW())"</dev:code>
+        <dev:remarks>
+          <maml:para>Executes a DDL statement to create a new table.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Connect-PGDatabase</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Invoke-PGQuery</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Disconnect-PGDatabase</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+</helpItems>

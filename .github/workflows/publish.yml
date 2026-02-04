@@ -1,0 +1,29 @@
+name: Publish Module
+on:
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@0c366fd6a839edf440554fa01a7085ccba70ac98
+      - name: Setup .NET
+        uses: actions/setup-dotnet@baa11fbfe1d6520db94683bd5c7a3818018e4309 
+        with:
+          dotnet-version: '9.0.x'
+      - name: Build
+        run: dotnet publish ./PSPostgreSQL.csproj -o PSPostgreSQL --configuration Release
+      - name: Release
+        env:
+          APIKEY: ${{ secrets.PSGALLERY_API_KEY }}
+        shell: pwsh
+        run: |
+          Install-Module Microsoft.PowerShell.PSResourceGet -Scope CurrentUser -Force
+          # Needed for workaround missing file (https://github.com/PowerShell/PSResourceGet/issues/1806)
+          Get-PSResourceRepository
+          Publish-PSResource -Path ./PSPostgreSQL -ApiKey $Env:APIKEY -Repository PSGallery
